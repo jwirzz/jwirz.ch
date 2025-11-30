@@ -8,21 +8,14 @@ repoURL: "https://github.com/notacodes/absendo"
 
 ![Astro Nano](/absendo-home.png)
 
-Absendo is a tool that automatically fills out absence forms for the BBZW (Berufsbildungszentrum Wirtschaft, Informatik und Technik).
-
-## 🌐 Live Demo
-
-Visit the app here: [https://absendo.app](https://absendo.app)
+Absendo is a tool designed to simplify the process of filling out absence forms for students of the BBZW (Berufsbildungszentrum Wirtschaft, Informatik und Technik). By integrating directly with your school calendar, Absendo automates the task of generating absence forms, saving students time and effort.
 
 ## 🚀 Technologies
 
-- **TypeScript**
-- **Vite**
-- **Vercel** (Deployment)
-- **Node.js** (Backend)
-
-## 🙏 Thanks
-
-Special thanks to everyone who shared their SLUZ URL for testing purposes — your help made this tool possible.
-Thanks also to [dDreistein](https://github.com/dDreistein) for designing the favicon.
+*   **Frontend:**
+    *   [TypeScript](https://www.typescriptlang.org/)
+    *   [React](https://react.dev/)
+    *   [Vite](https://vitejs.dev/) (Build Tool)
+    *   [Tailwind CSS](https://tailwindcss.com/) (Styling), [DaisyUI](https://daisyui.com/) (Component Library)
+    *   [Supabase](https://supabase.com/) (Authentication, Database)
 
