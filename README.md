@@ -1,1 +1,1 @@
-Source code powering jonathanwirz.com and my personal infrastructure.
+Source code powering jwirz.com and my personal infrastructure.

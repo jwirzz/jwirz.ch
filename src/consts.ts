@@ -2,7 +2,7 @@ import type { Site, Metadata, Socials } from "@types";
 
 export const SITE: Site = {
   NAME: "Jonathan",
-  EMAIL: "jonathan.wirz@proton.me",
+  EMAIL: "mail@jwirz.ch",
   NUM_POSTS_ON_HOMEPAGE: 3,
   NUM_WORKS_ON_HOMEPAGE: 2,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
@@ -10,7 +10,7 @@ export const SITE: Site = {
 
 export const HOME: Metadata = {
   TITLE: "Home",
-  DESCRIPTION: "Hey, I’m Jonathan Wirz. I like building fun, creative things for the web and learning as I go. This is where I share what I make and what inspires me.",
+  DESCRIPTION: "Hey, I’m Jonathan. I like building fun, creative things for the web and learning as I go. This is where I share what I make and what inspires me.",
 };
 
 export const BLOG: Metadata = {
