@@ -32,4 +32,10 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { blog, work, projects };
+const micro = defineCollection({
+  schema: z.object({
+    date: z.coerce.date(),
+  }),
+});
+
+export const collections = { blog, work, projects, micro };

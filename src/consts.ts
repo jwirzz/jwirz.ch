@@ -22,6 +22,11 @@ export const PROJECTS: Metadata = {
   DESCRIPTION: "A collection of my projects, with links to repositories and demos.",
 };
 
+export const MICRO: Metadata = {
+  TITLE: "Micro",
+  DESCRIPTION: "Short thoughts, notes and things I don't want to forget.",
+};
+
 export const SOCIALS: Socials = [
   { 
     NAME: "twitter-x",
