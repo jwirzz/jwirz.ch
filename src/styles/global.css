@@ -70,6 +70,10 @@ body {
   z-index: 100;
 }
 
+html.dark #blob {
+  background-color: white;
+}
+
 header {
   @apply fixed top-0 left-0 right-0 z-50 py-5;
   @apply bg-slate-50/75 dark:bg-stone-900/25;
@@ -86,7 +90,7 @@ footer {
 
 article {
   @apply max-w-full prose dark:prose-invert prose-img:mx-auto prose-img:my-auto;
-  @apply prose-headings:font-semibold prose-p:font-serif;
+  @apply prose-headings:font-semibold prose-p:font-sans;
   @apply prose-headings:text-black prose-headings:dark:text-white;
 }
 
@@ -126,4 +130,13 @@ html.scrolled #back-to-top {
 ::-moz-selection {
   color: white;
   background: orange;
+}
+
+html.dark ::selection {
+  color: black;
+  background: white;
+}
+html.dark ::-moz-selection {
+  color: black;
+  background: white;
 }
