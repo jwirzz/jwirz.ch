@@ -79,12 +79,13 @@ const { title, description } = Astro.props;
       }, { signal });
       wrap.addEventListener("mousemove", (e) => {
         if (wrap.hasAttribute("data-cursor-parallax")) {
+          const me = e as MouseEvent;
           const rect = wrap.getBoundingClientRect();
           const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
           gsap.to(wrap, {
             duration: 0.3,
-            x: ((e.pageX - rect.left - rect.width / 2) / rect.width) * 10,
-            y: ((e.pageY - rect.top - rect.height / 2 - scrollTop) / rect.height) * 10,
+            x: ((me.pageX - rect.left - rect.width / 2) / rect.width) * 10,
+            y: ((me.pageY - rect.top - rect.height / 2 - scrollTop) / rect.height) * 10,
             ease: Power2.easeOut,
           });
         }

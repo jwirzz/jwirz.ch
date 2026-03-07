@@ -61,7 +61,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
 
 <!-- RSS Link -->
 <link rel="alternate" type="application/rss+xml" title={SITE.NAME} href={new URL("rss.xml", Astro.site)} />
-<script defer src="https://analytics.jwirz.ch/script.js" data-website-id="934f8bd0-21a9-43c0-853b-3636f33a6a8a"></script>
+<script is:inline defer src="https://analytics.jwirz.ch/script.js" data-website-id="934f8bd0-21a9-43c0-853b-3636f33a6a8a"></script>
 
 <script>
   import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
