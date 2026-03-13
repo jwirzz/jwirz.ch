@@ -97,11 +97,16 @@ const projects = (await getCollection("projects"))
               {"/"}
             </li>
           ))}
-          <li class="line-clamp-1">
-            <Link href={`mailto:${SITE.EMAIL}`} aria-label={`Email ${SITE.NAME}`}>
-              {SITE.EMAIL}
-            </Link>
-          </li>
+       <li class="line-clamp-1">
+         <Link
+           href={"ma" + "il" + "\u0074" + "\u006f" + "\u003a" + "ma" + "il" + "\u0040" + "jwirz.ch"}
+           aria-label={"\u0045\u006d\u0061\u0069\u006c\u0020" + SITE.NAME}
+         >
+           <span style="unicode-bidi: bidi-override; direction: rtl;">
+             &#104;&#99;&#46;&#122;&#114;&#105;&#119;&#106;&#64;&#108;&#105;&#97;&#109;
+           </span>
+         </Link>
+       </li>
         </ul>
       </section>
     </div>
