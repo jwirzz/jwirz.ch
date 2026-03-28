@@ -44,7 +44,7 @@ export default function Lanyard({
 
 function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const navigate = useNavigate()
-  const band = useRef<THREE.Mesh>(null!)
+  const band = useRef<THREE.Mesh<any>>(null!)
   const fixed = useRef<any>(null!)
   const j1 = useRef<any>(null!)
   const j2 = useRef<any>(null!)
