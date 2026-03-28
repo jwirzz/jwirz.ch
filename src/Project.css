@@ -1,0 +1,17 @@
+.project {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('./assets/JetBrainsMono-VariableFont_wght.ttf') format('woff2');
+    font-weight: 700;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+}
