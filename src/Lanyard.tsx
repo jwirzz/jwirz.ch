@@ -260,19 +260,20 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                   onPointerOut={() => document.body.style.cursor = 'auto'}
               />
 
-                <mesh
-                    geometry={nodes.gif_zone.geometry}
-                    position={[0.01, 0.71, 0.01]}
-                    rotation={[Math.PI / 2, 0, 0]}
-                    scale={[0.175, 1.050, 0.180]}
-                >
-                  <meshBasicMaterial
-                      map={gifTexture}
-                      transparent
-                  />
-                </mesh>
-
               </group>}
+
+              <mesh
+                  geometry={nodes.gif_zone.geometry}
+                  position={[0.01, 0.71, 0.01]}
+                  rotation={[Math.PI / 2, 0, 0]}
+                  scale={[0.175, 1.050, 0.180]}
+              >
+                <meshBasicMaterial
+                    map={gifTexture}
+                    transparent
+                    side={THREE.DoubleSide}
+                />
+              </mesh>
 
               {flipped && <group position={[0.174, 0.031, 0.437]} scale={[1, 1, -1]}>
                 <mesh
