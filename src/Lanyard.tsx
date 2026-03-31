@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { Canvas, extend, useThree, useFrame } from '@react-three/fiber'
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei'
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
@@ -53,10 +53,10 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const card = useRef<any>(null!)
   const flipGroup = useRef<THREE.Group>(null!)
 
-  const vec = new THREE.Vector3()
-  const ang = new THREE.Vector3()
-  const rot = new THREE.Vector3()
-  const dir = new THREE.Vector3()
+  const vec = useMemo(() => new THREE.Vector3(), [])
+  const ang = useMemo(() => new THREE.Vector3(), [])
+  const rot = useMemo(() => new THREE.Vector3(), [])
+  const dir = useMemo(() => new THREE.Vector3(), [])
 
   const flipAngle = useRef(0)
   const [flipped, setFlipped] = useState(false)
@@ -64,6 +64,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
 
   const clickedOnZone = useRef(false)
   const gifTexture = useGifTexture('/duck.gif')
+  const invisibleMaterial = useMemo(() => new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, side: THREE.DoubleSide }), [])
 
   const segmentProps = {
     type: 'dynamic' as const,
@@ -213,6 +214,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
               {!flipped && <group>
               <mesh
                   geometry={nodes.clickzone_email.geometry}
+                  material={invisibleMaterial}
                   position={[-0.281, 0.101, 0.005]}
                   rotation={[Math.PI / 2, 0, 0]}
                   scale={[0.035, 1, 0.028]}
@@ -220,12 +222,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                   onClick={(e) => { e.stopPropagation(); window.location.href = 'mailto:mail@jwirz.ch' }}
                   onPointerOver={() => document.body.style.cursor = 'pointer'}
                   onPointerOut={() => document.body.style.cursor = 'auto'}
-              >
-                <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-              </mesh>
+              />
 
               <mesh
                   geometry={nodes.clickzone_github.geometry}
+                  material={invisibleMaterial}
                   position={[-0.201, 0.100, 0.005]}
                   rotation={[Math.PI / 2, 0, 0]}
                   scale={[0.035, 1, 0.03]}
@@ -233,12 +234,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                   onClick={(e) => { e.stopPropagation(); openLink('https://github.com/notacodes') }}
                   onPointerOver={() => document.body.style.cursor = 'pointer'}
                   onPointerOut={() => document.body.style.cursor = 'auto'}
-              >
-                <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-              </mesh>
+              />
 
               <mesh
                   geometry={nodes.clickzone_x.geometry}
+                  material={invisibleMaterial}
                   position={[-0.065, 0.100, 0.005]}
                   rotation={[Math.PI / 2, 0, 0]}
                   scale={[0.029, 1, 0.03]}
@@ -246,12 +246,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                   onClick={(e) => { e.stopPropagation(); openLink('https://x.com/notacodes') }}
                   onPointerOver={() => document.body.style.cursor = 'pointer'}
                   onPointerOut={() => document.body.style.cursor = 'auto'}
-              >
-                <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-              </mesh>
+              />
 
               <mesh
                   geometry={nodes.clickzone_buymeacoffe.geometry}
+                  material={invisibleMaterial}
                   position={[-0.127, 0.100, 0.005]}
                   rotation={[Math.PI / 2, 0, 0]}
                   scale={[0.023, 1, 0.032]}
@@ -259,9 +258,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                   onClick={(e) => { e.stopPropagation(); openLink('https://buymeacoffee.com/jwirz') }}
                   onPointerOver={() => document.body.style.cursor = 'pointer'}
                   onPointerOut={() => document.body.style.cursor = 'auto'}
-              >
-                <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-              </mesh>
+              />
 
                 <mesh
                     geometry={nodes.gif_zone.geometry}
@@ -280,6 +277,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
               {flipped && <group position={[0.174, 0.031, 0.437]} scale={[1, 1, -1]}>
                 <mesh
                     geometry={nodes.clickzone_projects_link.geometry}
+                    material={invisibleMaterial}
                     position={[-0.005, 0.514, 0.437]}
                     rotation={[Math.PI / 2, 0, -Math.PI]}
                     scale={[-0.105, -1, -0.017]}
@@ -287,12 +285,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                     onClick={(e) => { e.stopPropagation(); navigate('/projects') }}
                     onPointerOver={() => document.body.style.cursor = 'pointer'}
                     onPointerOut={() => document.body.style.cursor = 'auto'}
-                >
-                  <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-                </mesh>
+                />
 
                 <mesh
                     geometry={nodes.clickzone_projects_text.geometry}
+                    material={invisibleMaterial}
                     position={[-0.065, 0.43, 0.437]}
                     rotation={[Math.PI / 2, 0, -Math.PI]}
                     scale={[-0.155, -1, -0.017]}
@@ -300,12 +297,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                     onClick={(e) => { e.stopPropagation(); navigate('/projects') }}
                     onPointerOver={() => document.body.style.cursor = 'pointer'}
                     onPointerOut={() => document.body.style.cursor = 'auto'}
-                >
-                  <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-                </mesh>
+                />
 
                 <mesh
                     geometry={nodes.clickzone_micro_link.geometry}
+                    material={invisibleMaterial}
                     position={[-0.005, 0.36, 0.437]}
                     rotation={[Math.PI / 2, 0, -Math.PI]}
                     scale={[-0.105, -1, -0.017]}
@@ -313,12 +309,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                     onClick={(e) => { e.stopPropagation(); navigate('/micro') }}
                     onPointerOver={() => document.body.style.cursor = 'pointer'}
                     onPointerOut={() => document.body.style.cursor = 'auto'}
-                >
-                  <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-                </mesh>
+                />
 
                 <mesh
                     geometry={nodes.clickzone_micro_text.geometry}
+                    material={invisibleMaterial}
                     position={[-0.07, 0.28, 0.437]}
                     rotation={[Math.PI / 2, 0, -Math.PI]}
                     scale={[-0.167, -1, -0.017]}
@@ -326,12 +321,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                     onClick={(e) => { e.stopPropagation(); navigate('/micro') }}
                     onPointerOver={() => document.body.style.cursor = 'pointer'}
                     onPointerOut={() => document.body.style.cursor = 'auto'}
-                >
-                  <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-                </mesh>
+                />
 
                 <mesh
                     geometry={nodes.clickzone_email_plain.geometry}
+                    material={invisibleMaterial}
                     position={[-0.18, 0.15, 0.437]}
                     rotation={[Math.PI / 2, 0, -Math.PI]}
                     scale={[-0.149, -1, -0.02]}
@@ -339,12 +333,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                     onClick={(e) => { e.stopPropagation(); window.location.href = 'mailto:mail@jwirz.ch' }}
                     onPointerOver={() => document.body.style.cursor = 'pointer'}
                     onPointerOut={() => document.body.style.cursor = 'auto'}
-                >
-                  <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-                </mesh>
+                />
 
                 <mesh
                     geometry={nodes.clickzone_by_jonathan.geometry}
+                    material={invisibleMaterial}
                     position={[-0.275, 0.059, 0.437]}
                     rotation={[Math.PI / 2, 0, -Math.PI]}
                     scale={[-0.105, -1, -0.017]}
@@ -352,9 +345,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                     onClick={(e) => { e.stopPropagation(); openLink('https://jwirz.ch') }}
                     onPointerOver={() => document.body.style.cursor = 'pointer'}
                     onPointerOut={() => document.body.style.cursor = 'auto'}
-                >
-                  <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
-                </mesh>
+                />
               </group>}
             </group>
 
