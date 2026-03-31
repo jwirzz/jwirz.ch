@@ -5,6 +5,7 @@ import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
 import { useNavigate } from 'react-router-dom'
+import {useGifTexture} from "./useGifTexture.ts";
 
 extend({ MeshLineGeometry, MeshLineMaterial })
 
@@ -62,6 +63,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const pointerDownPos = useRef<{ x: number; y: number } | null>(null)
 
   const clickedOnZone = useRef(false)
+  const gifTexture = useGifTexture('/duck.gif')
 
   const segmentProps = {
     type: 'dynamic' as const,
@@ -260,6 +262,18 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
               >
                 <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
               </mesh>
+
+                <mesh
+                    geometry={nodes.gif_zone.geometry}
+                    position={[0.01, 0.71, 0.01]}
+                    rotation={[Math.PI / 2, 0, 0]}
+                    scale={[0.175, 1.050, 0.180]}
+                >
+                  <meshBasicMaterial
+                      map={gifTexture}
+                      transparent
+                  />
+                </mesh>
 
               </group>}
 
