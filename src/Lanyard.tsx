@@ -343,7 +343,6 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                     rotation={[Math.PI / 2, 0, -Math.PI]}
                     scale={[-0.105, -1, -0.017]}
                     onPointerDown={markZone}
-                    onClick={(e) => { e.stopPropagation(); openLink('https://jwirz.ch') }}
                     onPointerOver={() => document.body.style.cursor = 'pointer'}
                     onPointerOut={() => document.body.style.cursor = 'auto'}
                 />
