@@ -12,6 +12,7 @@ export default function Projects() {
     y: (window.innerHeight - MAT_HEIGHT) / 2,
   })
   const drag = useRef({ active: false, startX: 0, startY: 0, originX: 0, originY: 0 })
+  const rafId = useRef<number | null>(null)
 
   const clamp = (value: number, min: number, max: number) =>
     Math.max(min, Math.min(max, value))
@@ -47,7 +48,12 @@ export default function Projects() {
       x: clamp(drag.current.originX + dx, minX, 0),
       y: clamp(drag.current.originY + dy, minY, 0),
     }
-    applyTransform()
+    if (rafId.current === null) {
+      rafId.current = requestAnimationFrame(() => {
+        applyTransform()
+        rafId.current = null
+      })
+    }
   }, [])
 
   const onPointerUp = useCallback(() => {

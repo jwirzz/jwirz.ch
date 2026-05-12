@@ -10,6 +10,7 @@
   overflow: hidden;
   cursor: grab;
   user-select: none;
+  touch-action: none;
   background: #111;
 }
 
@@ -67,8 +68,8 @@
       #275c38 19px,
       #275c38 20px
     );
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.35);
   will-change: transform;
+  contain: strict;
 }
 
 .micro-return {
