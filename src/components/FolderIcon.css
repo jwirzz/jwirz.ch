@@ -1,0 +1,40 @@
+.folder-icon {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transition: filter 0.15s, transform 0.15s;
+  width: 80px;
+}
+
+.folder-icon:hover {
+  filter: brightness(1.12);
+  transform: translate(-50%, -53%);
+}
+
+.folder-icon:active {
+  cursor: grabbing;
+}
+
+.folder-icon svg {
+  width: 60px;
+  height: 48px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+.folder-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  line-height: 1.3;
+  word-break: break-word;
+}

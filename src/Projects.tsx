@@ -1,73 +1,175 @@
 import './Project.css'
-import { Link } from 'react-router-dom'
-import { useRef, useCallback, useEffect } from 'react'
+import { useRef, useCallback, useState } from 'react'
+import { Move } from 'lucide-react'
+import DraggableMat, { MAT_WIDTH, MAT_HEIGHT } from './components/DraggableMat'
+import DesktopWindow from './components/DesktopWindow'
+import FolderIcon from './components/FolderIcon'
+import { PROJECTS, INITIAL_FOLDERS, type FolderItem } from './projects/projects'
 
-const MAT_WIDTH = 4000
-const MAT_HEIGHT = 3000
+const CLICK_THRESHOLD = 5
+
+type OpenWindow = {
+  id: string
+  x: number
+  y: number
+  zIndex: number
+}
 
 export default function Projects() {
-  const matRef = useRef<HTMLDivElement>(null)
-  const offset = useRef({
-    x: (window.innerWidth - MAT_WIDTH) / 2,
+  const matOffset = useRef({
+    x: (window.innerWidth  - MAT_WIDTH)  / 2,
     y: (window.innerHeight - MAT_HEIGHT) / 2,
   })
-  const drag = useRef({ active: false, startX: 0, startY: 0, originX: 0, originY: 0 })
-  const rafId = useRef<number | null>(null)
 
-  const clamp = (value: number, min: number, max: number) =>
-    Math.max(min, Math.min(max, value))
+  const [folders, setFolders] = useState<FolderItem[]>(INITIAL_FOLDERS)
+  const folderDrag = useRef<{
+    id: string | null
+    startX: number
+    startY: number
+    originX: number
+    originY: number
+    moved: boolean
+  }>({ id: null, startX: 0, startY: 0, originX: 0, originY: 0, moved: false })
 
-  const applyTransform = () => {
-    if (matRef.current) {
-      matRef.current.style.transform = `translate(${offset.current.x}px, ${offset.current.y}px)`
+  const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v))
+
+  // --- Window state ---
+  const [windows, setWindows] = useState<OpenWindow[]>([])
+  const maxZ = useRef(100)
+
+  const openWindow = (id: string, folderMatX: number, folderMatY: number) => {
+    const screenX = folderMatX + matOffset.current.x
+    const screenY = folderMatY + matOffset.current.y
+    setWindows(prev => {
+      const existing = prev.find(w => w.id === id)
+      if (existing) {
+        maxZ.current += 1
+        return prev.map(w => w.id === id ? { ...w, zIndex: maxZ.current } : w)
+      }
+      maxZ.current += 1
+      return [...prev, {
+        id,
+        x: Math.min(Math.max(screenX + 30, 10), window.innerWidth  - 420),
+        y: Math.min(Math.max(screenY - 30, 10), window.innerHeight - 200),
+        zIndex: maxZ.current,
+      }]
+    })
+  }
+
+  const closeWindow = (id: string) => setWindows(prev => prev.filter(w => w.id !== id))
+  const focusWindow = (id: string) => {
+    maxZ.current += 1
+    setWindows(prev => prev.map(w => w.id === id ? { ...w, zIndex: maxZ.current } : w))
+  }
+  const moveWindow  = (id: string, x: number, y: number) =>
+    setWindows(prev => prev.map(w => w.id === id ? { ...w, x, y } : w))
+
+  // --- Folder drag handlers ---
+  const onFolderPointerDown = (e: React.PointerEvent<HTMLDivElement>, folder: FolderItem) => {
+    if (e.button !== 0) return
+    e.stopPropagation()
+    e.currentTarget.setPointerCapture(e.pointerId)
+    folderDrag.current = {
+      id: folder.id, startX: e.clientX, startY: e.clientY,
+      originX: folder.x, originY: folder.y, moved: false,
     }
   }
 
-  useEffect(() => { applyTransform() }, [])
-
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
-    if (e.button !== 0) return
-    if ((e.target as HTMLElement).closest('a')) return
-    e.currentTarget.setPointerCapture(e.pointerId)
-    drag.current = {
-      active: true,
-      startX: e.clientX,
-      startY: e.clientY,
-      originX: offset.current.x,
-      originY: offset.current.y,
-    }
+  const onFolderPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    const fd = folderDrag.current
+    if (!fd.id) return
+    const dx = e.clientX - fd.startX
+    const dy = e.clientY - fd.startY
+    if (!fd.moved && Math.hypot(dx, dy) > CLICK_THRESHOLD) fd.moved = true
+    if (!fd.moved) return
+    e.stopPropagation()
+    const nx = clamp(fd.originX + dx, 0, MAT_WIDTH)
+    const ny = clamp(fd.originY + dy, 0, MAT_HEIGHT)
+    setFolders(prev => prev.map(f => f.id === fd.id ? { ...f, x: nx, y: ny } : f))
   }, [])
 
-  const onPointerMove = useCallback((e: React.PointerEvent) => {
-    if (!drag.current.active) return
-    const dx = e.clientX - drag.current.startX
-    const dy = e.clientY - drag.current.startY
-    const minX = window.innerWidth - MAT_WIDTH
-    const minY = window.innerHeight - MAT_HEIGHT
-    offset.current = {
-      x: clamp(drag.current.originX + dx, minX, 0),
-      y: clamp(drag.current.originY + dy, minY, 0),
+  const onFolderPointerUp = (e: React.PointerEvent<HTMLDivElement>, folder: FolderItem) => {
+    const fd = folderDrag.current
+    const wasClick = fd.id === folder.id && !fd.moved
+    folderDrag.current = { id: null, startX: 0, startY: 0, originX: 0, originY: 0, moved: false }
+    if (wasClick) {
+      e.stopPropagation()
+      openWindow(folder.id, folder.x, folder.y)
     }
-    if (rafId.current === null) {
-      rafId.current = requestAnimationFrame(() => {
-        applyTransform()
-        rafId.current = null
-      })
-    }
-  }, [])
-
-  const onPointerUp = useCallback(() => {
-    drag.current.active = false
-  }, [])
+  }
 
   return (
-    <div className="micro-viewport"
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-    >
-      <div className="micro-mat" ref={matRef} />
-      <Link to="/" className="micro-return">← Return</Link>
-    </div>
+    <>
+      <DraggableMat offsetRef={matOffset}>
+        {/* Welcome banner */}
+        <div className="projects-welcome">
+          <div className="projects-welcome-heading">/projects</div>
+          <div className="projects-welcome-title">Things I've Built</div>
+          <div className="projects-welcome-hint">
+            <Move size={16} />
+            drag to explore — click a folder to open
+          </div>
+        </div>
+
+        {/* Folder icons */}
+        {folders.map(folder => (
+          <FolderIcon
+            key={folder.id}
+            label={folder.label}
+            x={folder.x}
+            y={folder.y}
+            onPointerDown={(e) => onFolderPointerDown(e, folder)}
+            onPointerMove={onFolderPointerMove}
+            onPointerUp={(e) => onFolderPointerUp(e, folder)}
+          />
+        ))}
+      </DraggableMat>
+
+      {/* In-place windows */}
+      {windows.map(win => {
+        const project = PROJECTS[win.id]
+        if (!project) return null
+        return (
+          <DesktopWindow
+            key={win.id}
+            id={win.id}
+            path={`projects\\${win.id}`}
+            x={win.x}
+            y={win.y}
+            zIndex={win.zIndex}
+            onClose={closeWindow}
+            onFocus={focusWindow}
+            onMove={moveWindow}
+          >
+            <h2 className="desktop-window-title">{project.title}</h2>
+            <p className="desktop-window-date">{project.description}</p>
+            <hr className="desktop-window-divider" />
+            {project.body.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+            {project.tech && project.tech.length > 0 && (
+              <div className="desktop-window-tags">
+                {project.tech.map(t => (
+                  <span key={t} className="desktop-window-tag">{t}</span>
+                ))}
+              </div>
+            )}
+            {project.link && (
+              <>
+                <hr className="desktop-window-divider" />
+                <a
+                  className="desktop-window-link"
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit project →
+                </a>
+              </>
+            )}
+          </DesktopWindow>
+        )
+      })}
+    </>
   )
 }

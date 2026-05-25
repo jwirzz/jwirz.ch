@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import Projects from './Projects.tsx'
+import Micro from './Micro.tsx'
+import MicroPost from './MicroPost.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -11,7 +13,8 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/projects" element={<Projects />} />
-        <Route path="/micro" element={<Projects />} />
+        <Route path="/micro" element={<Micro />} />
+        <Route path="/micro/:slug" element={<MicroPost />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
