@@ -231,7 +231,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                   rotation={[Math.PI / 2, 0, 0]}
                   scale={[0.035, 1, 0.03]}
                   onPointerDown={markZone}
-                  onClick={(e) => { e.stopPropagation(); openLink('https://github.com/notacodes') }}
+                  onClick={(e) => { e.stopPropagation(); openLink('https://github.com/jwirzz') }}
                   onPointerOver={() => document.body.style.cursor = 'pointer'}
                   onPointerOut={() => document.body.style.cursor = 'auto'}
               />
@@ -243,7 +243,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                   rotation={[Math.PI / 2, 0, 0]}
                   scale={[0.029, 1, 0.03]}
                   onPointerDown={markZone}
-                  onClick={(e) => { e.stopPropagation(); openLink('https://x.com/notacodes') }}
+                  onClick={(e) => { e.stopPropagation(); openLink('https://x.com/jwirzz') }}
                   onPointerOver={() => document.body.style.cursor = 'pointer'}
                   onPointerOut={() => document.body.style.cursor = 'auto'}
               />
