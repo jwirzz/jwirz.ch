@@ -243,7 +243,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                   rotation={[Math.PI / 2, 0, 0]}
                   scale={[0.029, 1, 0.03]}
                   onPointerDown={markZone}
-                  onClick={(e) => { e.stopPropagation(); openLink('https://x.com/jwirzz') }}
+                  onClick={(e) => { e.stopPropagation(); openLink('https://x.com/jwirzzz') }}
                   onPointerOver={() => document.body.style.cursor = 'pointer'}
                   onPointerOut={() => document.body.style.cursor = 'auto'}
               />
